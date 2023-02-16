@@ -1,9 +1,30 @@
 # Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+- pinia,
+- axios
+- bootstrap 5
 
-## using piinia, axios, bootstrap5
+## testing endpoint:
+  
+- [https://github.com/ringofdt/fastapi-jwt](https://github.com/ringofdt/fastapi-jwt)
 
-## Recommended IDE Setup
+## usage
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+1. Prevent sync node_module to icloud:
+
+    ```sh
+    mkdir node_modules.nosync
+    ln -svf node_modules.nosync node_modules
+    ```
+
+1. Install the packages:
+
+   ```sh
+   yarn install
+   ```
+
+1. Run
+
+    ```sh
+    yarn dev
+    ```
