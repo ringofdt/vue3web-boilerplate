@@ -6,51 +6,104 @@ import ApiService from '@/services/api.service';
 export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
-        // initialize state from local storage to enable user to stay logged in
         user: null, 
-        err : null,
+        signIn : {
+            err: null,
+            processing: false,
+        },
+        signUp : {
+            err: null,
+            processing: false,
+            succ: false,
+        },
         token: null,
     }),
     getters:{
-        errmsg(state){
-            return state.err;
+        signInErr(state){
+            return state.signIn.err;
+        },
+        isSigningIn(state) {
+            return state.signIn.processing
+        },
+        signUpErr(state){
+            return state.signUp.err;
+        },
+        signUpSucc(state){
+            return state.signUp.succ;
+        },
+        isSigningUp(state) {
+            return state.signUp.processing
         },
         isAuthSucc(state) {
             return state.token ? true : false 
         }
     },
     actions: {
-        async signIn(form) {
-            console.debug('signIn: ',form)
-            
+        async doSignIn(form) {
+            console.debug('doSignIn: ',form)
+                this.clear()
+                this.signIn.processing = true
                 await ApiService.post('/user/login',form)
                 .then((res)=>{
                     console.debug(res.data)
-                    this.err = res.data.error ? res.data.error : null
-                    this.token = res.data.access_token ? res.data.access_token : null
+                    this.signIn.err = res.data.error ? res.data.error : null
+                    this.setToken(res.data.access_token)
                 }).catch((e)=>{
                     console.error(e.response)
-                    this.err = e.response.data
+                    this.signIn.err = e.response.statusText
                 }).finally(()=>{
-                    if (this.err) {
-                        this.token = null
+                    this.signIn.processing = false
+                    if (this.signIn.err) {
+                        this.unsetToken()
                     }
                 })
                 
             
         },
-        async signUp(form) {
-            return await ApiService.post('/user/signup',form)
+        async doSignUp(form) {
+            this.clear()
+            this.signUp.processing = true
+            await ApiService.post('/user/signup',form)
             .then((res)=>{
                 console.debug(res.data)
-                return res.data
+                this.signUp.err = res.data.error ? res.data.error : null
+                this.signUp.succ = true;
             }).catch((e)=>{
-                console.error(e)
-                throw(e)
+                console.error(e.response)
+                this.signUp.err = e.response.statusText
+            }).finally(()=>{
+                this.signUp.processing = false
             })
+        },
+        setToken(token){
+            console.debug('setToken: ',token)
+            if (token) {
+                TokenService.saveToken(token)
+                this.token = token
+            }
+        },
+        resetSignUp(){
+            this.signUp = {
+                err: null,
+                processing: false,
+                succ: false,
+            }
+        },
+        resetSignIn(){
+            this.signIn = {
+                err: null,
+                processing: false,
+            }
         },
         clear() {
             this.$reset()
+            TokenService.removeToken()
+        },
+        loadToken(){
+            const token = TokenService.getToken()
+            if (token) {
+                this.token = token 
+            }
         }
     }
 });

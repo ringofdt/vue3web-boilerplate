@@ -20,6 +20,12 @@
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </div>
         </form>
+        <div v-if="authStore.signUpErr" class="alert alert-danger mt-2" role="alert">
+            {{ authStore.signUpErr }}
+        </div>
+        <div v-if="authStore.signUpSucc" class="alert alert-success mt-2" role="alert">
+            <span>Account registered !! </span>
+        </div>
     </div>
 </template>
 
@@ -41,13 +47,16 @@ export default {
     },
     methods: {
         async signUp() {
-            await this.authStore.signUp({
+            await this.authStore.doSignUp({
                 fullname: this.name,
                 email: this.email,
                 password: this.password,
             });
         },
     },
+    mounted() {
+        this.authStore.resetSignUp()
+    }
 };
 </script>
 

@@ -14,8 +14,8 @@
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </div>
         </form>
-        <div v-if="authStore.errmsg" class="alert alert-danger mt-2" role="alert">
-            {{ authStore.errmsg }}
+        <div v-if="authStore.signInErr" class="alert alert-danger mt-2" role="alert">
+            {{ authStore.signInErr }}
         </div>
     </div>
 </template>
@@ -37,12 +37,15 @@ export default {
     },
     methods: {
         async signIn() {
-            await this.authStore.signIn({
+            await this.authStore.doSignIn({
                 email: this.email,
                 password: this.password,
             });
         },
     },
+    mounted() {
+        this.authStore.resetSignIn()
+    }
 };
 </script>
 
