@@ -8,7 +8,8 @@
             </div>
             <div class="mb-3">
                 <label for="signInInputPassword1" class="form-label">Password</label>
-                <input type="password" v-model="password" class="form-control" id="signInInputPassword1">
+                <input type="password" v-model="password" class="form-control" id="signInInputPassword1"
+                    autocomplete="off">
             </div>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary">Sign In</button>

@@ -53,9 +53,6 @@ export const useAuthStore = defineStore({
                     this.signIn.err = e.response.statusText
                 }).finally(()=>{
                     this.signIn.processing = false
-                    if (this.signIn.err) {
-                        this.unsetToken()
-                    }
                 })
                 
             
