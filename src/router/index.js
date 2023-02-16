@@ -24,5 +24,11 @@ const routes = [
 
 ]
 
-const router = createRouter({ history: createWebHistory(), routes })
-export default router
+export const router = createRouter({ 
+    history: createWebHistory(), 
+    linkActiveClass: 'active',
+    routes ,
+})
+
+export default router 
+

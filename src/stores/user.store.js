@@ -5,10 +5,11 @@ export const useUserStore = defineStore({
   id: 'user',
 
   state: () => ({
-    token: '1234',
+    user: null,
   }),
-  actions:{
 
+  actions:{
+    
   }
 })
 

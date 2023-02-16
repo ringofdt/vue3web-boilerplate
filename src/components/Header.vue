@@ -1,12 +1,12 @@
 <script setup>
 import router from '@/router'
-// import { useAuthStore } from '@/stores'
-// const authStore = useAuthStore();
+import { useAuthStore } from '@/stores'
+const authStore = useAuthStore();
 
 </script>
 
 <template>
-    <nav id="nav" class="navbar navbar-expand-md bg-body-tertiary">
+    <nav id="nav" class="navbar navbar-expand-sm bg-body-tertiary">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                 aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,8 +22,8 @@ import router from '@/router'
                         <router-link class="nav-link" :to="{ name: 'About' }">About</router-link>
                     </li>
                 </ul>
-                <ul class="navbar-nav d-flex flex-row-reverse">
-                    <li class="nav-item">
+                <ul class="navbar-nav d-flex">
+                    <li v-if="authStore.isAuthSucc" class="nav-item">
                         <router-link class="nav-link" :to="{ name: 'Logout' }">Logout</router-link>
                     </li>
                 </ul>
